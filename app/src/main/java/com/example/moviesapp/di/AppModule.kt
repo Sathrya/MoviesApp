@@ -8,6 +8,8 @@ import com.example.moviesapp.service.MovieService
 import com.example.moviesapp.ui.viewmodel.LatestMoviesViewModel
 import com.example.moviesapp.ui.viewmodel.MovieDetailsViewModel
 import com.example.moviesapp.ui.viewmodel.PopularMoviesViewModel
+import com.example.moviesapp.utils.ApiHelper
+import com.example.moviesapp.utils.Constants
 import com.example.moviesapp.utils.Constants.BASE_URL
 import okhttp3.OkHttpClient
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -32,19 +34,10 @@ val appModule = module {
 
     single<MoviesRepo> { MoviesRepoImpl(get()) }
 
-    factory { provideRetrofit() }
 
-    single { provideNetworkApi( get() ) }
+    factory { provideNetworkApi() }
 }
 
-fun provideNetworkApi(retrofit: Retrofit): MovieService {
-    return retrofit.create(MovieService::class.java)
-}
-
-fun provideRetrofit(): Retrofit {
-    return Retrofit.Builder()
-        .baseUrl(BASE_URL)
-        .addConverterFactory(GsonConverterFactory.create())
-        .client(OkHttpClient.Builder().build())
-        .build()
+fun provideNetworkApi(): MovieService {
+    return ApiHelper(BASE_URL).createRetrofit()
 }

@@ -9,15 +9,13 @@ import android.view.ViewGroup
 import coil.load
 import com.example.moviesapp.R
 import com.example.moviesapp.data.Movie
-import com.example.moviesapp.data.MovieItem
 import com.example.moviesapp.databinding.FragmentMovieDetailsBinding
 import com.example.moviesapp.ui.viewmodel.MovieDetailsViewModel
 import com.example.moviesapp.utils.Constants
 import com.example.moviesapp.utils.GlobalObject
-import org.koin.androidx.viewmodel.ext.android.getSharedViewModel
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import com.example.moviesapp.utils.convertToCurrency
+import com.example.moviesapp.utils.show2decimals
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.parameter.parametersOf
 
 
 class MovieDetailsFragment : Fragment() {
@@ -62,19 +60,17 @@ class MovieDetailsFragment : Fragment() {
                 binding.prgBarMovies.visibility = View.GONE
             }
         }
-        Log.d("Success","UIIIIIIIII")
         binding.imgMovie.load(Constants.POSTER_BASE_URL + it?.posterPath){
             crossfade(true)
             placeholder(R.drawable.ic_launcher_background)
         }
-        binding.tvMovieRuntime.text = "${it?.runtime.toString()}${getString(R.string.minute)}"
         binding.tvMovieTitle.text = it?.title
         binding.tvMovieTagLine.text = it?.tagline
         binding.tvMovieDateRelease.text = it?.releaseDate
-        binding.tvMovieRating.text = it?.voteAverage.toString()
-        binding.tvMovieRuntime.text = it?.runtime.toString()
-        binding.tvMovieBudget.text = it?.budget.toString()
-        binding.tvMovieRevenue.text = it?.revenue.toString()
+        binding.tvMovieRating.text = it?.voteAverage.toString().show2decimals(it?.voteAverage)
+        binding.tvMovieRuntime.text = it?.runtime.toString() + " mins"
+        binding.tvMovieBudget.text = it?.budget.toString().convertToCurrency(it?.budget.toString())
+        binding.tvMovieRevenue.text = it?.revenue.toString().convertToCurrency(it?.revenue.toString())
         binding.tvMovieOverview.text = it?.overview
     }
 
