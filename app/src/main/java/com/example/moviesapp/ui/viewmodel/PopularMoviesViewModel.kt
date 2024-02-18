@@ -1,6 +1,5 @@
 package com.example.moviesapp.ui.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,13 +10,14 @@ import kotlinx.coroutines.launch
 
 class PopularMoviesViewModel(private val useCase: GetMovieUseCase) : ViewModel() {
 
-    val latestMovieList = MutableLiveData<List<MovieItem>>()
+    val popularMovieList = MutableLiveData<List<MovieItem>>()
 
     fun getAllPopularMovies() {
         viewModelScope.launch(Dispatchers.IO) {
             val response = useCase.execute("")
-            Log.d("Success",response.code().toString())
-            latestMovieList.postValue(response.body()?.results)
+            if(response.isSuccessful){
+                popularMovieList.postValue(response.body()?.results)
+            }
         }
     }
 }

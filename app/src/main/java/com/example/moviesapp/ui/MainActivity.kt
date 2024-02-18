@@ -2,14 +2,9 @@ package com.example.moviesapp.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.navigation.findNavController
-import androidx.navigation.ui.NavigationUI
-import androidx.viewpager2.widget.ViewPager2
 import com.example.moviesapp.R
 import com.example.moviesapp.databinding.ActivityMainBinding
 import com.example.moviesapp.ui.adapters.ViewPagerAdapter
-import com.example.moviesapp.ui.fragments.LatestMoviesFragment
-import com.example.moviesapp.ui.fragments.PopularMoviesFragment
 import com.google.android.material.tabs.TabLayoutMediator
 
 class MainActivity : AppCompatActivity() {

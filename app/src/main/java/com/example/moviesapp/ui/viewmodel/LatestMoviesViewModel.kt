@@ -16,8 +16,9 @@ class LatestMoviesViewModel(private val useCase: GetMovieUseCase) : ViewModel() 
     fun getAllLatestMovies() {
         viewModelScope.launch(Dispatchers.IO) {
             val response = useCase.execute("latest")
-            Log.d("Success",response.code().toString())
-            latestMovieList.postValue(response.body()?.results)
+            if(response.isSuccessful){
+                latestMovieList.postValue(response.body()?.results)
+            }
         }
     }
 }

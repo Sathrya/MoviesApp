@@ -15,4 +15,6 @@
     <string name="revenue">"Revenue: "</string>
     <string name="overview">Overview :</string>
     <string name="runtime">Runtime:</string>
+    <string name="checkInternet">Please make sure you\'re connected to internet/wifi</string>
+    <string name="noInternetImg">No internet</string>
 </resources>

@@ -6,13 +6,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.moviesapp.R
 import com.example.moviesapp.data.MovieItem
 import com.example.moviesapp.databinding.FragmentLatestMovieBinding
 import com.example.moviesapp.ui.MoviesDetailsActivity
 import com.example.moviesapp.ui.adapters.MoviesAdapter
 import com.example.moviesapp.ui.viewmodel.LatestMoviesViewModel
 import com.example.moviesapp.utils.GlobalObject
+import com.example.moviesapp.utils.NetworkHelper
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LatestMoviesFragment : Fragment() {
@@ -29,9 +32,24 @@ class LatestMoviesFragment : Fragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        thisViewModel.getAllLatestMovies()
-        setUpObservers()
+    override fun onResume() {
+        super.onResume()
+        if (NetworkHelper.checkConnectivity(requireActivity())){
+            binding.noInternetBanner.visibility = View.GONE
+            thisViewModel.getAllLatestMovies()
+            setUpObservers()
+        }
+        else{
+            showNoInternet()
+        }
+    }
+
+    private fun showNoInternet() {
+        binding.mainLoader.visibility = View.GONE
+        Toast.makeText(requireContext(), R.string.checkInternet,Toast.LENGTH_SHORT).show()
+        if (thisViewModel.latestMovieList.value?.isEmpty() == true) {
+            binding.noInternetBanner.visibility = View.VISIBLE
+        }
     }
 
     private fun setUpObservers() {
